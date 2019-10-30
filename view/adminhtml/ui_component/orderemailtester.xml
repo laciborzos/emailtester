@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">orderemailtester.orderemailtester_data_source</item>
+            <item name="deps" xsi:type="string">orderemailtester.orderemailtester_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Employee Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">orderemailtester</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <dataSource name="orderemailtester_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Hestaworks\OrderEmailTester\Model\Block\DataProvider</argument>
+            <argument name="name" xsi:type="string">orderemailtester_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="order_details">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">Order Details</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+        <field name="order_id" component="Hestaworks_OrderEmailTester/js/emailAjax">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Order Increment Id</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                </item>
+            </argument>
+        </field>
+        <button name="show_email_button">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="buttonClasses" xsi:type="string">open-email-modal</item>
+                    <item name="actions" xsi:type="array">                        
+						<item name="0" xsi:type="array">
+                            <item name="targetName" xsi:type="string">ns = ${ $.ns }, index = order_id</item>
+                            <item name="actionName" xsi:type="string">callAjax</item>
+							<item name="params" xsi:type="array">							
+								<item name="0" xsi:type="string">.hestaworks-email-tester-email-container</item>  <!-- pass modal name as param -->
+								<item name="1" xsi:type="string">orderemailtester_modal</item>
+							</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <displayAsLink>false</displayAsLink>
+                <title><![CDATA[Show email]]></title>
+            </settings>
+        </button>
+    </fieldset>
+    <modal name="orderemailtester_modal" component="Magento_Ui/js/modal/modal-component">
+        <settings>
+            <onCancel>actionCancel</onCancel>
+            <state>true</state>
+            <options>
+                <option name="modalClass" xsi:type="string">hestaworks-email-tester-email-container</option>
+                <option name="title" xsi:type="string" translate="true"></option>
+                <option name="type" xsi:type="string">popup</option>
+                <option name="responsive" xsi:type="boolean">true</option>
+                <option name="innerScroll" xsi:type="boolean">false</option>
+                <option name="autoOpen" xsi:type="boolean">false</option>
+            </options>
+        </settings>
+        <fieldset name="notification_fieldset">
+            <settings>
+                <label/>
+            </settings>
+            <container name="notification_text" template="ui/form/components/complex">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string"/>
+                        <item name="additionalClasses" xsi:type="string">hestaworks-email-tester-email-text-container</item>
+                        <item name="text" xsi:type="string" translate="true"></item>
+                    </item>
+                </argument>
+            </container>
+            <container name="notification_buttons">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string"/>
+                    </item>
+                </argument>
+                <button name="notification_button_next" displayArea="actions-secondary">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="buttonClasses" xsi:type="string">release-notification-button-next</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="array">
+                                    <item name="targetName" xsi:type="string">ns = ${ $.ns }, index = orderemailtester_modal</item>
+                                    <item name="actionName" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <displayAsLink>true</displayAsLink>
+                        <title><![CDATA[Close]]></title>
+                    </settings>
+                </button>
+            </container>
+        </fieldset>
+    </modal>
+</form>

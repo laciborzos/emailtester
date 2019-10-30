@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<head>
+        <title>Hestaworks Order E-mail Tester</title>
+    </head>
+	<body>
+        <referenceContainer name="content">
+			<block class="Hestaworks\OrderEmailTester\Block\Adminhtml\Url" name="orderemailtester.urlSetter"/>
+            <uiComponent name="orderemailtester"/>
+        </referenceContainer>
+    </body>
+</page>
+

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Hestaworks_OrderEmailTester::parent" title="Hestaworks" module="Hestaworks_OrderEmailTester" sortOrder="100" resource="Hestaworks_OrderEmailTester::parent" parent="Magento_Backend::system"/>
+        <add id="Hestaworks_OrderEmailTester::index" title="Order E-mail Tester" module="Hestaworks_OrderEmailTester" sortOrder="10" action="orderemailtester/index" resource="Hestaworks_OrderEmailTester::index" parent="Hestaworks_OrderEmailTester::parent"/>
+    </menu>
+</config>
