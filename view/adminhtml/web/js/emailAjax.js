@@ -5,8 +5,13 @@ define([
 ], function($,Default,modal){
 
     return Default.extend({
-        callAjax: function(targetContainerSelector,modalUiName){
-			var value = this.value();
+        initialize: function (){
+            this._super();
+            $('[data-role="spinner"]').remove(); /* this shit sometimes disappears, sometimes it doesn't */
+        },
+        callAjax: function(){
+            window.open(window.emailTesterSubmitUrl.replace('hestaworksOrderId',this.value()));
+			/*var value = this.value();
             $.ajax({
                 url: window.emailTesterSubmitUrl,
                 method: 'POST',
@@ -16,7 +21,7 @@ define([
 					form_key: window.FORM_KEY
                 },
                 success: function (data) {
-					$("#popup-modal").html(data);							
+					$("#popup-modal").html(data);
                     var options = {
 						type: 'popup',
 						responsive: true,
@@ -35,7 +40,7 @@ define([
 
 					$('#popup-modal').modal('openModal');
                 }
-            });
+            });*/
         }
     });
 });

@@ -1,15 +1,25 @@
-<?php 
+<?php
 
 namespace Hestaworks\OrderEmailTester\Helper;
 
-class Email extends \Magento\Framework\App\Helper\AbstractHelper{
-	
+use Magento\Framework\App\Area;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\DataObject;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Payment\Helper\Data;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order\Address\Renderer;
+use Magento\Sales\Model\Order\Email\Container\OrderIdentity;
+
+class Email extends AbstractHelper{
+
 	public function __construct(
-		\Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-		\Magento\Sales\Model\Order\Address\Renderer $addressRenderer,
-		\Magento\Payment\Helper\Data $paymentHelper,
-		\Magento\Sales\Model\Order\Email\Container\OrderIdentity $identityContainer,
-		\Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+		OrderRepositoryInterface $orderRepository,
+		Renderer $addressRenderer,
+		Data $paymentHelper,
+		OrderIdentity $identityContainer,
+		TransportBuilder $transportBuilder
 	){
 		$this->orderRepository = $orderRepository;
 		$this->addressRenderer = $addressRenderer;
@@ -18,10 +28,12 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper{
 		$this->transportBuilder = $transportBuilder;
 	}
 	public function getEmailContent($orderId){
-		$order = $this->orderRepository->get($orderId); /* get by order increment id, REFACTOR */
-		if(!$order){
-			return false;
-		}
+	    try {
+            $order = $this->orderRepository->get($orderId);
+        }catch(NoSuchEntityException $entityException){
+	        echo $entityException->getMessage();
+	        return;
+        }
 		$shippingAddress = $this->addressRenderer->format($order->getShippingAddress(), 'html');
 		$billingAddress = $this->addressRenderer->format($order->getBillingAddress(), 'html');
 		$paymentHtml = $this->paymentHelper->getInfoBlockHtml(
@@ -36,16 +48,16 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper{
 			'formattedShippingAddress' => $shippingAddress,
 			'formattedBillingAddress' => $billingAddress
 		];
-		$transportObject = new \Magento\Framework\DataObject($transport);		
+		$transportObject = new DataObject($transport);
 		$this->transportBuilder->addTo('laszlo.borzas@netlogiq.ro','Laszlo Borzas');
 		$this->transportBuilder->setTemplateVars($transportObject->getData());
 		$this->transportBuilder->setTemplateIdentifier($this->identityContainer->getTemplateId());
 		$this->transportBuilder->setTemplateOptions([
-					'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+					'area' => Area::AREA_FRONTEND,
 					'store' => $order->getStore()->getStoreId()
 				]);
 		$transport = $this->transportBuilder->getTransport();
 		return $transport->getMessage()->getBody()->getParts()[0]->getRawContent();
 	}
-		
+
 }

@@ -45,14 +45,10 @@
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="buttonClasses" xsi:type="string">open-email-modal</item>
-                    <item name="actions" xsi:type="array">                        
+                    <item name="actions" xsi:type="array">
 						<item name="0" xsi:type="array">
                             <item name="targetName" xsi:type="string">ns = ${ $.ns }, index = order_id</item>
                             <item name="actionName" xsi:type="string">callAjax</item>
-							<item name="params" xsi:type="array">							
-								<item name="0" xsi:type="string">.hestaworks-email-tester-email-container</item>  <!-- pass modal name as param -->
-								<item name="1" xsi:type="string">orderemailtester_modal</item>
-							</item>
                         </item>
                     </item>
                 </item>
@@ -63,56 +59,4 @@
             </settings>
         </button>
     </fieldset>
-    <modal name="orderemailtester_modal" component="Magento_Ui/js/modal/modal-component">
-        <settings>
-            <onCancel>actionCancel</onCancel>
-            <state>true</state>
-            <options>
-                <option name="modalClass" xsi:type="string">hestaworks-email-tester-email-container</option>
-                <option name="title" xsi:type="string" translate="true"></option>
-                <option name="type" xsi:type="string">popup</option>
-                <option name="responsive" xsi:type="boolean">true</option>
-                <option name="innerScroll" xsi:type="boolean">false</option>
-                <option name="autoOpen" xsi:type="boolean">false</option>
-            </options>
-        </settings>
-        <fieldset name="notification_fieldset">
-            <settings>
-                <label/>
-            </settings>
-            <container name="notification_text" template="ui/form/components/complex">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string"/>
-                        <item name="additionalClasses" xsi:type="string">hestaworks-email-tester-email-text-container</item>
-                        <item name="text" xsi:type="string" translate="true"></item>
-                    </item>
-                </argument>
-            </container>
-            <container name="notification_buttons">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string"/>
-                    </item>
-                </argument>
-                <button name="notification_button_next" displayArea="actions-secondary">
-                    <argument name="data" xsi:type="array">
-                        <item name="config" xsi:type="array">
-                            <item name="buttonClasses" xsi:type="string">release-notification-button-next</item>
-                            <item name="actions" xsi:type="array">
-                                <item name="0" xsi:type="array">
-                                    <item name="targetName" xsi:type="string">ns = ${ $.ns }, index = orderemailtester_modal</item>
-                                    <item name="actionName" xsi:type="string">closeModal</item>
-                                </item>
-                            </item>
-                        </item>
-                    </argument>
-                    <settings>
-                        <displayAsLink>true</displayAsLink>
-                        <title><![CDATA[Close]]></title>
-                    </settings>
-                </button>
-            </container>
-        </fieldset>
-    </modal>
 </form>

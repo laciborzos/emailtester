@@ -19,8 +19,8 @@ class Url extends \Magento\Backend\Block\Widget\Container
 		<div id='popup-modal'>			
 		</div>
 		<script type='text/javascript'>			
-			var emailTesterSubmitUrl = '".$this->urlHelper->getUrl('orderemailtester/index/email')."';
-		</script>";		
+			var emailTesterSubmitUrl = '".$this->urlHelper->getUrl('orderemailtester/index/email/id/hestaworksOrderId')."';
+		</script>";
 	}
 }
 
